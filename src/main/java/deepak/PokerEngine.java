@@ -41,9 +41,7 @@ public class PokerEngine
       
       Optional< Hand > winningHand = playerMap.keySet().stream().sorted( ( x, y ) -> y.getValue() - x.getValue() ).findFirst();
       
-      List< Player > winningHandPlayers = playerMap.get( winningHand.get() );
-      
-      List< Player > winningPlayers = getWinningPlayers( winningHandPlayers );
+      List< Player > winningPlayers = getWinningPlayers( playerMap.get( winningHand.get() ) );
       
       BestHand bestHand = gameResult.getPlayers().get( 0 ).getBestHand();
       
@@ -84,11 +82,7 @@ public class PokerEngine
          {
             max = total;
          }
-         if( map.get( total ) == null )
-         {
-            map.put( total, new ArrayList<>() );
-         }
-         map.get( total ).add( p );
+         map.computeIfAbsent( total, k -> new ArrayList<>() ).add( p );
       }
 
       return map.get( max );
