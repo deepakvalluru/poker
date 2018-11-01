@@ -43,11 +43,11 @@ public class GameTest
 
       Game casinoRoyale = new Game( players );
 
-//      casinoRoyale.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
-//      casinoRoyale.dealCard( new Card( Number.EIGHT, Suit.SPADES ) );
-//      casinoRoyale.dealCard( new Card( Number.SIX, Suit.SPADES ) );
-//      casinoRoyale.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
-//      casinoRoyale.dealCard( new Card( Number.ACE, Suit.SPADES ) );
+      casinoRoyale.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
+      casinoRoyale.dealCard( new Card( Number.EIGHT, Suit.SPADES ) );
+      casinoRoyale.dealCard( new Card( Number.SIX, Suit.SPADES ) );
+      casinoRoyale.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
+      casinoRoyale.dealCard( new Card( Number.ACE, Suit.SPADES ) );
       
       return casinoRoyale;
    }

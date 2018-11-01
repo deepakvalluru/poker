@@ -1,7 +1,6 @@
 package deepak.pojo;
 
 import deepak.common.SetOfCards;
-import deepak.type.Hand;
 
 public class Player implements Comparable< Player >
 {
@@ -12,6 +11,8 @@ public class Player implements Comparable< Player >
    private SetOfCards boardCards;
    
    private BestHand bestHand;
+   
+   private Float percentage;
 
    public Player( String name )
    {
@@ -74,6 +75,16 @@ public class Player implements Comparable< Player >
       this.bestHand = bestHand;
    }
 
+   public Float getPercentage()
+   {
+      return percentage;
+   }
+
+   public void setPercentage( Float percentage )
+   {
+      this.percentage = percentage;
+   }
+
    public String toString()
    {
       return "-------------------------------------------------------------------"
@@ -92,19 +103,7 @@ public class Player implements Comparable< Player >
    @Override
    public int compareTo( Player o )
    {  
-      if( !o.getBestHand().getHand().equals( this.getBestHand().getHand() ) )
-      {
-         return o.getBestHand().getHand().getValue() - this.getBestHand().getHand().getValue();
-      }
-      else
-      {
-         if( o.getBestHand().getHand().equals( Hand.PAIR ) )
-         {
-            
-         }
-         
-         return 0;
-      }
+      return o.getBestHand().getHand().getValue() - this.getBestHand().getHand().getValue();
    }
    
 }

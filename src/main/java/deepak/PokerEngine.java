@@ -1,5 +1,6 @@
 package deepak;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import deepak.common.GameResult;
 import deepak.common.SetOfCards;
@@ -17,6 +21,8 @@ import deepak.validator.PokerHandValidator;
 
 public class PokerEngine
 {
+   private static final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
+   
    public static GameResult getResult( Game game )
    {
       GameResult gameResult = new GameResult();
@@ -29,7 +35,7 @@ public class PokerEngine
          totalSet.addCards( player.getPlayerCards().getCards() );
          BestHand bestHand = PokerHandValidator.getBestHand( totalSet );
          player.setBestHand( bestHand );
-         System.out.println( player );
+//         logger.info( player.toString() );
       }
       
       Collections.sort( gameResult.getPlayers() );
