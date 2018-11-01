@@ -1,6 +1,5 @@
 package deepak;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import deepak.common.SetOfCards;
@@ -19,6 +18,7 @@ public class Game
       setDeck( new Deck() );
       setPlayers( players );
       this.boardCards = new SetOfCards();
+      players.forEach( x -> x.getPlayerCards().getCards().forEach( y -> getDeck().getCards().remove( y ) ) );
    }
 
    public List< Player > getPlayers()
@@ -58,7 +58,7 @@ public class Game
 
    public void dealCard( Card card )
    {
-      getDeck().dealCard( card );
+      getDeck().getCards().remove( card );
       getBoardCards().addCard( card );
       getPlayers().forEach( x -> x.getBoardCards().addCard( card ) );
    }

@@ -35,9 +35,4 @@ public final class Deck
 		return cards;
 	}
 	
-	public int dealCard( Card card )
-	{
-	   cards.remove( card );
-	   return cards.size();
-	}
 }

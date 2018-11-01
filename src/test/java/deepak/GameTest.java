@@ -23,7 +23,15 @@ public class GameTest
    @Test
    public void testCasinoRoyaleGame()
    {
-      // https://www.casino-games-online.biz/cards/poker/casino-royale-last-hand.html
+      Game casinoRoyale = getCasinoRoyaleGame();
+      logger.info( "Board Cards - {}", casinoRoyale.getBoardCards() );
+      GameResult gameResult = PokerEngine.getResult( casinoRoyale );
+      logger.info( "Winners are - \n {}", gameResult.getWinners() );
+   }
+   
+   public static Game getCasinoRoyaleGame()
+   {
+   // https://www.casino-games-online.biz/cards/poker/casino-royale-last-hand.html
 
       List< Player > players = Stream.< Player > builder()
                                      .add( getPlayerWithFlush() )
@@ -35,15 +43,13 @@ public class GameTest
 
       Game casinoRoyale = new Game( players );
 
-      casinoRoyale.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
-      casinoRoyale.dealCard( new Card( Number.EIGHT, Suit.SPADES ) );
-      casinoRoyale.dealCard( new Card( Number.SIX, Suit.SPADES ) );
-      casinoRoyale.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
-      casinoRoyale.dealCard( new Card( Number.ACE, Suit.SPADES ) );
-
-      logger.info( "Board Cards - {}", casinoRoyale.getBoardCards() );
-      GameResult gameResult = PokerEngine.getResult( casinoRoyale );
-      logger.info( "Winners are - \n {}", gameResult.getWinners() );
+//      casinoRoyale.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
+//      casinoRoyale.dealCard( new Card( Number.EIGHT, Suit.SPADES ) );
+//      casinoRoyale.dealCard( new Card( Number.SIX, Suit.SPADES ) );
+//      casinoRoyale.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
+//      casinoRoyale.dealCard( new Card( Number.ACE, Suit.SPADES ) );
+      
+      return casinoRoyale;
    }
    
    // Japanese guy

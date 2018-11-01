@@ -43,4 +43,10 @@ public class Card implements Comparable< Card >{
 	{
 		return o.getNumber().getValue() - this.getNumber().getValue() ;
 	}
+	
+	@Override
+	public boolean equals( Object o )
+	{
+	   return this.getNumber().getValue() == ((Card) o).getNumber().getValue() && this.getSuit().equals( ( (Card) o).getSuit() );
+	}
 }
