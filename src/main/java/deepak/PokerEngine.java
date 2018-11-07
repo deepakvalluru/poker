@@ -35,7 +35,7 @@ public class PokerEngine
          totalSet.addCards( player.getPlayerCards().getCards() );
          BestHand bestHand = PokerHandValidator.getBestHand( totalSet );
          player.setBestHand( bestHand );
-//         logger.info( player.toString() );
+         logger.info( player.toString() );
       }
       
       Collections.sort( gameResult.getPlayers() );
