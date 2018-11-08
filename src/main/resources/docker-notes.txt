@@ -1,0 +1,11 @@
+// display all docker images
+docker images
+
+//display all active containers
+docker ps -a
+
+//build docker image
+docker image build -t poker-image:v1 .
+
+//run docker container from image
+docker run -p 4000:8080 poker-image:v1
