@@ -1,0 +1,13 @@
+FROM alpine/git as clone
+WORKDIR /app
+RUN git clone -b dev https://deepakvalluru:Vdilip_7github@github.com/deepakvalluru/poker.git
+
+FROM maven:3.5-jdk-8-alpine as build
+WORKDIR /app
+COPY --from=clone /app/poker /app
+RUN mvn install
+
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/poker-*shaded.jar /app.jar
+CMD ["/usr/bin/java", "-cp", "/app.jar", "deepak.Main"]

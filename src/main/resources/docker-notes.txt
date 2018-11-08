@@ -6,6 +6,13 @@ docker ps -a
 
 //build docker image
 docker image build -t poker-image:v1 .
+docker image build -f Dockerfile -t poker-image:v1 .
 
 //run docker container from image
 docker run -p 4000:8080 poker-image:v1
+
+//remove all docker images
+docker rmi $(docker images -a -q)
+
+//remove all docker containers
+docker rm $(docker ps -a -f status=exited -f status=created -q)
