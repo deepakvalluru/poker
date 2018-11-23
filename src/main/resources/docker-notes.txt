@@ -16,3 +16,6 @@ docker rmi $(docker images -a -q)
 
 //remove all docker containers
 docker rm $(docker ps -a -f status=exited -f status=created -q)
+
+// find container address
+docker inspect <container id> | grep "IPAddress"
