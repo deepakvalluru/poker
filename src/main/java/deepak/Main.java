@@ -1,5 +1,7 @@
 package deepak;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,15 +14,18 @@ import deepak.type.Number;
 import deepak.type.Suit;
 
 public class Main {
-	
+
 	public static void main( String args[] )
 	{
-	   Game casinoRoyale = getCasinoRoyaleGame();
+		Instant start = Instant.now();
+		Game casinoRoyale = getCasinoRoyaleGame();
       System.out.println( "Board Cards - "+ casinoRoyale.getBoardCards() );
       GameResult gameResult = PokerEngine.getResult( casinoRoyale );
       System.out.println( "Winners are - \n "+ gameResult.getWinners() );
+		Instant finish = Instant.now();
+		System.out.println( "Time taken to process - " + Duration.between( start, finish).toMillis() );
 	}
-	
+
 	 public static Game getCasinoRoyaleGame()
 	   {
 	   // https://www.casino-games-online.biz/cards/poker/casino-royale-last-hand.html
@@ -40,10 +45,10 @@ public class Main {
 	      casinoRoyale.dealCard( new Card( Number.SIX, Suit.SPADES ) );
 	      casinoRoyale.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
 	      casinoRoyale.dealCard( new Card( Number.ACE, Suit.SPADES ) );
-	      
+
 	      return casinoRoyale;
 	   }
-	 
+
 	// Japanese guy
 	   private static Player getPlayerWithFlush()
 	   {
@@ -56,7 +61,7 @@ public class Main {
 	      player.setPlayerCards( new SetOfCards( playerCards ) );
 	      return player;
 	   }
-	   
+
 	   // Black Guy
 	   private static Player getPlayerWithSmallerFullHouse()
 	   {
@@ -69,7 +74,7 @@ public class Main {
 	      player.setPlayerCards( new SetOfCards( playerCards ) );
 	      return player;
 	   }
-	   
+
 	   // The villain LeChiffre
 	   private static Player getPlayerWithBiggerFullHouse()
 	   {
@@ -82,7 +87,7 @@ public class Main {
 	      player.setPlayerCards( new SetOfCards( playerCards ) );
 	      return player;
 	   }
-	   
+
 	   // The Hero - Bond....James Bond
 	   private static Player getPlayerWithStraightFlush()
 	   {

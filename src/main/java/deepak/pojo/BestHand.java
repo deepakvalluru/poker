@@ -34,6 +34,6 @@ public class BestHand
 	
 	public String toString()
 	{
-		return "Best Hand is " + this.hand.toString() + " with Cards " + "{ " + this.setOfCards.toString() + " }";
+		return this.hand.toString() + " with Cards " + "{ " + this.setOfCards.toString() + " }";
 	}
 }

@@ -28,7 +28,7 @@ public class Flush
       {
          List< Card > list = cardMap.get( suit.get() );
          Collections.sort( list );
-         SetOfCards cards = new SetOfCards( list );
+         SetOfCards cards = new SetOfCards( list.stream().limit(5).collect(Collectors.toList()) );
          return new Result( true, cards );
       }
 
