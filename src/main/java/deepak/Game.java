@@ -1,6 +1,8 @@
 package deepak;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import deepak.common.SetOfCards;
 import deepak.pojo.Card;
@@ -61,6 +63,15 @@ public class Game
       getDeck().getCards().remove( card );
       getBoardCards().addCard( card );
       getPlayers().forEach( x -> x.getBoardCards().addCard( card ) );
+   }
+
+
+   public static Game cloneGame( Game game )
+   {
+      List<Player> players = game.getPlayers().stream().map( p -> Player.clonePlayer( p ) ).collect( Collectors.toList() );
+      Game cloneGame = new Game( players );
+      cloneGame.setBoardCards( new SetOfCards(  new ArrayList<>( game.getBoardCards().getCards() ) ) );
+      return cloneGame;
    }
 
 }

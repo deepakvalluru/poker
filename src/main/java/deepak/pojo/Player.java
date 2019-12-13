@@ -2,6 +2,9 @@ package deepak.pojo;
 
 import deepak.common.SetOfCards;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Player implements Comparable< Player >
 {
    private String name;
@@ -83,6 +86,29 @@ public class Player implements Comparable< Player >
    public void setPercentage( Float percentage )
    {
       this.percentage = percentage;
+   }
+
+   public static Player clonePlayer( Player player)
+   {
+      Player clone = new Player( player.getName() );
+      clone.setPlayerCards( new SetOfCards( new ArrayList<>( player.playerCards.getCards() ) ) );
+      clone.setBoardCards( new SetOfCards( new ArrayList<>( player.boardCards.getCards() ) )  );
+      return clone;
+   }
+
+   @Override public boolean equals( Object o )
+   {
+      if( this == o )
+         return true;
+      if( o == null || getClass() != o.getClass() )
+         return false;
+      Player player = ( Player ) o;
+      return name.equals( player.name );
+   }
+
+   @Override public int hashCode()
+   {
+      return Objects.hash( name );
    }
 
    public String toString()
