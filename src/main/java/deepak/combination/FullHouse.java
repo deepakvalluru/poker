@@ -31,7 +31,7 @@ public class FullHouse
          twoCard = cardMap.keySet()
                           .stream()
                           .filter( x -> ( cardMap.get( x ) != null
-                                          && !cardMap.get( x ).equals( threeCard )
+                                          && !x.equals( threeCard.get() )
                                           && cardMap.get( x ).size() >= 2 ) )
                           .sorted()
                           .findFirst();
