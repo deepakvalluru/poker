@@ -92,7 +92,7 @@ public class Player implements Comparable< Player >
    {
       Player clone = new Player( player.getName() );
       clone.setPlayerCards( new SetOfCards( new ArrayList<>( player.playerCards.getCards() ) ) );
-      clone.setBoardCards( new SetOfCards( new ArrayList<>( player.boardCards.getCards() ) )  );
+      clone.setBoardCards( new SetOfCards( new ArrayList<>( player.getBoardCards().getCards() ) )  );
       return clone;
    }
 

@@ -26,8 +26,7 @@ public class StraightFlush
 
       if( suit.isPresent() )
       {
-         List< Card > list = cardMap.get( suit.get() );
-         Collections.sort( list );
+         List< Card > list = cardMap.get( suit.get() ).stream().sorted( ).limit( 5 ).collect( Collectors.toList());
          SetOfCards cards = new SetOfCards( list );
          Result straightResult = Straight.isValid( cards );
          return straightResult;

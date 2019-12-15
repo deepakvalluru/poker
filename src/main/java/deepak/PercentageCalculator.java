@@ -1,16 +1,12 @@
 package deepak;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import deepak.common.Result;
+import org.apache.commons.math3.fraction.Fraction;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,63 +21,59 @@ public class PercentageCalculator
 {
    private static final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 
-   private static ExecutorService executorService = Executors.newFixedThreadPool( 20);
+   private static final ExecutorService executorService = Executors.newFixedThreadPool( 20 );
 
    public static GameResult calculatePercentages( Game game )
    {
       List< List< Card > > remainingCardCombinations = getCombinations( game.getDeck(),
                                                                         5 - game.getBoardCards().getCards().size() );
-      Map< Player, Integer > playerWinMap = new HashMap<>();
-      List< Card > currentBoardCards = game.getBoardCards().getCards();
-      List<Future<GameResult>> futureResults = new ArrayList<>(  );
-
+      Map< Player, Fraction > playerWinMap = new HashMap<>();
+      List<CompletableFuture<GameResult>> futureResults = new ArrayList<>(  );
 
       for( List< Card > list : remainingCardCombinations )
       {
          Game cloneGame = Game.cloneGame( game );
          SetOfCards boardCards = cloneGame.getBoardCards();
          boardCards.addCards( list );
-         logger.info( " CARDS ON THE BOARD - {}", boardCards );
-         for( Player player : game.getPlayers() )
-         {
-            player.setBoardCards( boardCards );
-         }
-         Future< GameResult > futureResult = executorService.submit( () -> PokerEngine.getResult( cloneGame ) );
-         futureResults.add( futureResult );
+         logger.trace( " CARDS ON THE BOARD - {}", boardCards );
+         game.getPlayers().forEach( p -> p.setBoardCards( boardCards ) );
+         CompletableFuture<GameResult> future = CompletableFuture.supplyAsync( () -> PokerEngine.getResult( cloneGame ), executorService );
+         futureResults.add( future );
       }
 
-      for( Future<GameResult> futureResult : futureResults )
-      {
-         GameResult gameResult = null;
+      // blocking call - will wait until all futures are implemented
+      CompletableFuture.allOf( all( futureResults ) );
+
+      futureResults.forEach( future -> {
          try
          {
-            gameResult = futureResult.get();
+            GameResult gameResult = future.get();
             if( gameResult.getIsResultAvailable() )
             {
-               gameResult.getWinners().forEach( x -> { playerWinMap.merge( x, 1, ( y, z ) -> y + z );
-               logger.info( x.getName() + " with winning hand " + x.getBestHand() );} );
+               // if multiple winners, then only add winning fraction share.
+               Fraction fr = new Fraction( 1, gameResult.getWinners().size() );
+               gameResult.getWinners().forEach( x -> {
+                  playerWinMap.merge( x, fr, ( y, z ) -> y.add( z ) );
+                  logger.trace( x.getName() + " with winning hand " + x.getBestHand() );
+               } );
             }
          }
-         catch (InterruptedException | ExecutionException e)
+         catch( InterruptedException e )
          {
             e.printStackTrace();
-            logger.error( "Executor service exception : {}", e.getMessage() );
          }
-//         finally {
-//            if (executorService != null) {
-//               executorService.shutdownNow();
-//            }
-//         }
-      }
+         catch( ExecutionException e )
+         {
+            e.printStackTrace();
+         }
 
+      } );
 
-      playerWinMap.keySet().forEach( x -> logger.info( "{} - {}", x.getName(), playerWinMap.get( x ) ) );
+      playerWinMap.keySet().forEach( x -> logger.info( "{} - {}", x.getName(), playerWinMap.get( x ).floatValue() ) );
       GameResult gameResult = new GameResult();
       gameResult.setPlayers( game.getPlayers() );
       gameResult.getPlayers().forEach( p -> {
-         p.setPercentage( playerWinMap.get( p ) != null ? ( ( float ) playerWinMap.get( p )
-                                                            / remainingCardCombinations.size() )
-                                                          * 100
+         p.setPercentage( playerWinMap.get( p ) != null ? ( playerWinMap.get( p ).divide( remainingCardCombinations.size() ).multiply( 100 ).floatValue() )
                                                         : 0f );
          p.setBoardCards( game.getBoardCards() );
       } );
@@ -101,5 +93,15 @@ public class PercentageCalculator
                                                   .collect( Collectors.toList() ) ) );
       logger.info( "Total remaining combinations - {}", list.size() );
       return list;
+   }
+
+   public static <T> CompletableFuture<List<T>> all( List<CompletableFuture<T>> futures )
+   {
+      CompletableFuture[] cfs = futures.toArray( new CompletableFuture[ futures.size() ] );
+
+      return CompletableFuture.allOf( cfs )
+                              .thenApply( ignored -> futures.stream()
+                                                            .map( CompletableFuture::join )
+                                                            .collect( Collectors.toList() ) );
    }
 }

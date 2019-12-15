@@ -21,7 +21,7 @@ public final class HighCard
    public static List< Card > getHighCard( SetOfCards setOfCards )
    {
       Collections.sort( setOfCards.getCards() );
-      return setOfCards.getCards().stream().limit( 5 ).collect( Collectors.toList() );
+      return setOfCards.getCards().stream().sorted( ).limit( 5 ).collect( Collectors.toList() );
    }
    
 }

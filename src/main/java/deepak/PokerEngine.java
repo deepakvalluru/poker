@@ -35,7 +35,7 @@ public class PokerEngine
          totalSet.addCards( player.getPlayerCards().getCards() );
          BestHand bestHand = PokerHandValidator.getBestHand( totalSet );
          player.setBestHand( bestHand );
-         logger.info( player.toString() );
+         logger.trace( player.toString() );
       }
       
       Collections.sort( gameResult.getPlayers() );
@@ -78,6 +78,7 @@ public class PokerEngine
                                     .stream()
                                     .map( x -> x.getNumber().getValue() )
                                     .collect( Collectors.toList() );
+         logger.trace( "numbers are - {}", numbers );
 
          double total = 0;
          for( int i = 4; i >= 0; i-- )
