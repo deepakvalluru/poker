@@ -1,29 +1,29 @@
 package deepak.common;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import deepak.pojo.BestHand;
 import deepak.pojo.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameResult
 {
-   private List< Player > players;
-   private List< Player > winners;
-   private BestHand       bestHand;
-   private Boolean        isResultAvailable;
+   private List<Player> players;
+   private List<Player> winners;
+   private BestHand     bestHand;
+   private Boolean      isResultAvailable;
 
-   public List< Player > getPlayers()
+   public List<Player> getPlayers()
    {
       return players;
    }
 
-   public void setPlayers( List< Player > players )
+   public void setPlayers( List<Player> players )
    {
       this.players = players;
    }
 
-   public List< Player > getWinners()
+   public List<Player> getWinners()
    {
       if( winners == null )
       {
@@ -32,7 +32,7 @@ public class GameResult
       return winners;
    }
 
-   public void setWinners( List< Player > winners )
+   public void setWinners( List<Player> winners )
    {
       this.winners = winners;
    }
