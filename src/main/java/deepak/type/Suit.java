@@ -1,5 +1,6 @@
 package deepak.type;
 
-public enum Suit {
-	SPADES, HEARTS, DIAMONDS, CLUBS;
+public enum Suit
+{
+   SPADES, HEARTS, DIAMONDS, CLUBS;
 }

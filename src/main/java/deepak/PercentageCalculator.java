@@ -1,21 +1,23 @@
 package deepak;
 
-import java.lang.invoke.MethodHandles;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import deepak.common.GameResult;
 import deepak.common.SetOfCards;
 import deepak.pojo.Card;
 import deepak.pojo.Deck;
 import deepak.pojo.Player;
+import org.apache.commons.math3.fraction.Fraction;
+import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class PercentageCalculator
 {
@@ -25,19 +27,20 @@ public class PercentageCalculator
 
    public static GameResult calculatePercentages( Game game )
    {
-      List< List< Card > > remainingCardCombinations = getCombinations( game.getDeck(),
-                                                                        5 - game.getBoardCards().getCards().size() );
-      Map< Player, Fraction > playerWinMap = new HashMap<>();
-      List<CompletableFuture<GameResult>> futureResults = new ArrayList<>(  );
+      List<List<Card>> remainingCardCombinations =
+               getCombinations( game.getDeck(), 5 - game.getBoardCards().getCards().size() );
+      Map<Player, Fraction> playerWinMap = new HashMap<>();
+      List<CompletableFuture<GameResult>> futureResults = new ArrayList<>();
 
-      for( List< Card > list : remainingCardCombinations )
+      for( List<Card> list : remainingCardCombinations )
       {
          Game cloneGame = Game.cloneGame( game );
          SetOfCards boardCards = cloneGame.getBoardCards();
          boardCards.addCards( list );
          logger.trace( " CARDS ON THE BOARD - {}", boardCards );
          game.getPlayers().forEach( p -> p.setBoardCards( boardCards ) );
-         CompletableFuture<GameResult> future = CompletableFuture.supplyAsync( () -> PokerEngine.getResult( cloneGame ), executorService );
+         CompletableFuture<GameResult> future =
+                  CompletableFuture.supplyAsync( () -> PokerEngine.getResult( cloneGame ), executorService );
          futureResults.add( future );
       }
 
@@ -73,20 +76,22 @@ public class PercentageCalculator
       GameResult gameResult = new GameResult();
       gameResult.setPlayers( game.getPlayers() );
       gameResult.getPlayers().forEach( p -> {
-         p.setPercentage( playerWinMap.get( p ) != null ? ( playerWinMap.get( p ).divide( remainingCardCombinations.size() ).multiply( 100 ).floatValue() )
-                                                        : 0f );
+         p.setPercentage( playerWinMap.get( p ) != null ? ( playerWinMap.get( p )
+                                                                        .divide( remainingCardCombinations.size() )
+                                                                        .multiply( 100 )
+                                                                        .floatValue() ) : 0f );
          p.setBoardCards( game.getBoardCards() );
       } );
 
       return gameResult;
    }
 
-   public static List< List< Card > > getCombinations( Deck deck, int cardsToDeal )
+   public static List<List<Card>> getCombinations( Deck deck, int cardsToDeal )
    {
-      List< Card > cards = deck.getCards();
+      List<Card> cards = deck.getCards();
       int cardsLeftInDeck = cards.size();
-      Iterator< int[] > c = CombinatoricsUtils.combinationsIterator( cardsLeftInDeck, cardsToDeal );
-      List< List< Card > > list = new ArrayList<>();
+      Iterator<int[]> c = CombinatoricsUtils.combinationsIterator( cardsLeftInDeck, cardsToDeal );
+      List<List<Card>> list = new ArrayList<>();
       c.forEachRemaining( x -> list.add( IntStream.of( x )
                                                   .boxed()
                                                   .map( y -> cards.get( y ) )

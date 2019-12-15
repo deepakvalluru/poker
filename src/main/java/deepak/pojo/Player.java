@@ -5,34 +5,34 @@ import deepak.common.SetOfCards;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Player implements Comparable< Player >
+public class Player implements Comparable<Player>
 {
    private String name;
-   
+
    private SetOfCards playerCards;
-   
+
    private SetOfCards boardCards;
-   
+
    private BestHand bestHand;
-   
+
    private Float percentage;
 
    public Player( String name )
    {
       this.name = name;
    }
-   
+
    public Player( SetOfCards playerCards )
    {
       this.playerCards = playerCards;
    }
-   
+
    public Player( SetOfCards playerCards, SetOfCards boardCards )
    {
       this.playerCards = playerCards;
       this.boardCards = boardCards;
    }
-   
+
    public String getName()
    {
       return name;
@@ -59,7 +59,7 @@ public class Player implements Comparable< Player >
       {
          this.boardCards = new SetOfCards();
       }
-      
+
       return this.boardCards;
    }
 
@@ -88,11 +88,11 @@ public class Player implements Comparable< Player >
       this.percentage = percentage;
    }
 
-   public static Player clonePlayer( Player player)
+   public static Player clonePlayer( Player player )
    {
       Player clone = new Player( player.getName() );
       clone.setPlayerCards( new SetOfCards( new ArrayList<>( player.playerCards.getCards() ) ) );
-      clone.setBoardCards( new SetOfCards( new ArrayList<>( player.getBoardCards().getCards() ) )  );
+      clone.setBoardCards( new SetOfCards( new ArrayList<>( player.getBoardCards().getCards() ) ) );
       return clone;
    }
 
@@ -126,10 +126,9 @@ public class Player implements Comparable< Player >
              + bestHand;
    }
 
-   @Override
-   public int compareTo( Player o )
-   {  
+   @Override public int compareTo( Player o )
+   {
       return o.getBestHand().getHand().getValue() - this.getBestHand().getHand().getValue();
    }
-   
+
 }

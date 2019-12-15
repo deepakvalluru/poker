@@ -19,6 +19,6 @@ public class PercentageCalculatorTest
       GameResult result = PercentageCalculator.calculatePercentages( casinoRoyale );
 
       logger.info( "-------------------------------------Here are the results--------------------------------" );
-      result.getPlayers().forEach( p -> logger.info( "{} -----------> {} %", p.getName(),  p.getPercentage() ) );
+      result.getPlayers().forEach( p -> logger.info( "{} -----------> {} %", p.getName(),  String.format( "%.2f", p.getPercentage() ) ) );
    }
 }

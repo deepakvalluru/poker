@@ -3,14 +3,14 @@ package deepak.common;
 public class Result
 {
    private boolean isValid;
-   
+
    private SetOfCards bestSetOfCards;
-   
+
    public Result()
    {
-      
+
    }
-   
+
    public Result( boolean isValid, SetOfCards bestSetOfCards )
    {
       this.isValid = isValid;
@@ -36,10 +36,10 @@ public class Result
    {
       this.bestSetOfCards = bestSetOfCards;
    }
-   
+
    public String toString()
    {
-      return isValid ? "TRUE" : "FALSE" + " with cards " + "{" + this.bestSetOfCards + "}"; 
+      return isValid ? "TRUE" : "FALSE" + " with cards " + "{" + this.bestSetOfCards + "}";
    }
 
 }
