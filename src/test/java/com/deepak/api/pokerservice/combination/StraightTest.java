@@ -107,11 +107,11 @@ public class StraightTest
                                            .build()
                                            .collect( Collectors.toList() ) );
       
-      straightCardsPoker.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
-      straightCardsPoker.dealCard( new Card( Number.QUEEN, Suit.SPADES ) );
-      straightCardsPoker.dealCard( new Card( Number.THREE, Suit.HEARTS ) );
-      straightCardsPoker.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
-      straightCardsPoker.dealCard( new Card( Number.JACK, Suit.SPADES ) );
+      straightCardsPoker.dealBoardCard( new Card( Number.ACE, Suit.HEARTS ) );
+      straightCardsPoker.dealBoardCard( new Card( Number.QUEEN, Suit.SPADES ) );
+      straightCardsPoker.dealBoardCard( new Card( Number.THREE, Suit.HEARTS ) );
+      straightCardsPoker.dealBoardCard( new Card( Number.FOUR, Suit.SPADES ) );
+      straightCardsPoker.dealBoardCard( new Card( Number.JACK, Suit.SPADES ) );
       
       logger.info( "Board Cards - {} \n", straightCardsPoker.getBoardCards() );
       GameResult gameResult = PokerEngine.getResult( straightCardsPoker );

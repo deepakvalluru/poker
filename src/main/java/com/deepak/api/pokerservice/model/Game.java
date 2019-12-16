@@ -1,5 +1,7 @@
 package com.deepak.api.pokerservice.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +12,7 @@ public class Game
    private SetOfCards   boardCards;
    private Deck         deck;
 
+   @JsonCreator
    public Game( List<Player> players )
    {
       setDeck( new Deck() );
@@ -53,11 +56,18 @@ public class Game
       this.deck = deck;
    }
 
-   public void dealCard( Card card )
+   public void dealBoardCard( Card card )
    {
       getDeck().getCards().remove( card );
       getBoardCards().addCard( card );
       getPlayers().forEach( x -> x.getBoardCards().addCard( card ) );
+   }
+
+   public void dealPlayerCard( Card card, Player player )
+   {
+      getDeck().getCards().remove( card );
+      player.getPlayerCards().addCard( card );
+      getPlayers().stream().filter( p ->  p.equals( player ) ).forEach( p -> p.setPlayerCards( player.getPlayerCards() ) );
    }
 
    public static Game cloneGame( Game game )

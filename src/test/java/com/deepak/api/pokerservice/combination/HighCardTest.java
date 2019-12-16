@@ -71,11 +71,11 @@ public class HighCardTest
                                            .build()
                                            .collect( Collectors.toList() ) );
       
-      highCardPoker.dealCard( new Card( Number.ACE, Suit.HEARTS ) );
-      highCardPoker.dealCard( new Card( Number.EIGHT, Suit.SPADES ) );
-      highCardPoker.dealCard( new Card( Number.SIX, Suit.HEARTS ) );
-      highCardPoker.dealCard( new Card( Number.FOUR, Suit.SPADES ) );
-      highCardPoker.dealCard( new Card( Number.JACK, Suit.SPADES ) );
+      highCardPoker.dealBoardCard( new Card( Number.ACE, Suit.HEARTS ) );
+      highCardPoker.dealBoardCard( new Card( Number.EIGHT, Suit.SPADES ) );
+      highCardPoker.dealBoardCard( new Card( Number.SIX, Suit.HEARTS ) );
+      highCardPoker.dealBoardCard( new Card( Number.FOUR, Suit.SPADES ) );
+      highCardPoker.dealBoardCard( new Card( Number.JACK, Suit.SPADES ) );
       
       logger.info( "Board Cards - {} \n ", highCardPoker.getBoardCards() );
       GameResult gameResult = PokerEngine.getResult( highCardPoker );

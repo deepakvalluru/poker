@@ -1,11 +1,15 @@
 package com.deepak.api.pokerservice.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player implements Comparable<Player>
 {
    private String name;
+
+   private Integer position;
 
    private SetOfCards playerCards;
 
@@ -15,9 +19,18 @@ public class Player implements Comparable<Player>
 
    private Float percentage;
 
+   private boolean active;
+
    public Player( String name )
    {
       this.name = name;
+   }
+
+   @JsonCreator
+   public Player( String name, Integer position )
+   {
+      this.name = name;
+      this.position = position;
    }
 
    public Player( SetOfCards playerCards )
@@ -41,8 +54,22 @@ public class Player implements Comparable<Player>
       this.name = name;
    }
 
+   public Integer getPosition()
+   {
+      return position;
+   }
+
+   public void setPosition( Integer position )
+   {
+      this.position = position;
+   }
+
    public SetOfCards getPlayerCards()
    {
+      if( this.playerCards == null )
+      {
+         this.playerCards = new SetOfCards(  );
+      }
       return playerCards;
    }
 
@@ -92,6 +119,16 @@ public class Player implements Comparable<Player>
       clone.setPlayerCards( new SetOfCards( new ArrayList<>( player.playerCards.getCards() ) ) );
       clone.setBoardCards( new SetOfCards( new ArrayList<>( player.getBoardCards().getCards() ) ) );
       return clone;
+   }
+
+   public boolean isActive()
+   {
+      return active;
+   }
+
+   public void setActive( boolean active )
+   {
+      this.active = active;
    }
 
    @Override public boolean equals( Object o )
