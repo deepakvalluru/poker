@@ -1,8 +1,5 @@
 package com.deepak.api.pokerservice.model;
 
-import com.deepak.api.pokerservice.model.BestHand;
-import com.deepak.api.pokerservice.model.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +9,7 @@ public class GameResult
    private List<Player> winners;
    private BestHand     bestHand;
    private Boolean      isResultAvailable;
+   private Game         game;
 
    public List<Player> getPlayers()
    {
@@ -62,4 +60,13 @@ public class GameResult
       this.isResultAvailable = isResultAvailable;
    }
 
+   public Game getGame()
+   {
+      return game;
+   }
+
+   public void setGame( Game game )
+   {
+      this.game = game;
+   }
 }

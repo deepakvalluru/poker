@@ -66,14 +66,28 @@ public class Game
    public void dealPlayerCard( Card card, Player player )
    {
       getDeck().getCards().remove( card );
-      player.getPlayerCards().addCard( card );
-      getPlayers().stream().filter( p ->  p.equals( player ) ).forEach( p -> p.setPlayerCards( player.getPlayerCards() ) );
+      // get existing player cards for the player from the game object
+      // in case parameter player does not have player cards passed in it.
+      SetOfCards playerCards = getPlayers().stream()
+                                          .filter( p -> p.equals( player ) )
+                                          .map( Player::getPlayerCards )
+                                          .collect( Collectors.toList() )
+                                          .get( 0 );
+      playerCards.addCard( card );
+      getPlayers().stream().filter( p ->  p.equals( player ) ).forEach( p ->
+                                                                        {
+                                                                           p.setPlayerCards( playerCards );
+                                                                           if( playerCards.size() >=2 )
+                                                                           {
+                                                                              p.setActive( true );
+                                                                           }
+                                                                        } );
    }
 
    public static Game cloneGame( Game game )
    {
       List<Player> players =
-               game.getPlayers().stream().map( p -> Player.clonePlayer( p ) ).collect( Collectors.toList() );
+               game.getPlayers().stream().filter( Player::isActive ).map( p -> Player.clonePlayer( p ) ).collect( Collectors.toList() );
       Game cloneGame = new Game( players );
       cloneGame.setBoardCards( new SetOfCards( new ArrayList<>( game.getBoardCards().getCards() ) ) );
       return cloneGame;

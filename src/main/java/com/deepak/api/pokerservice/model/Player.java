@@ -1,6 +1,7 @@
 package com.deepak.api.pokerservice.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class Player implements Comparable<Player>
    }
 
    @JsonCreator
-   public Player( String name, Integer position )
+   public Player( @JsonProperty ("name") String name, @JsonProperty("position") Integer position )
    {
       this.name = name;
       this.position = position;
@@ -116,8 +117,10 @@ public class Player implements Comparable<Player>
    public static Player clonePlayer( Player player )
    {
       Player clone = new Player( player.getName() );
+      clone.setPosition( player.getPosition() );
       clone.setPlayerCards( new SetOfCards( new ArrayList<>( player.playerCards.getCards() ) ) );
       clone.setBoardCards( new SetOfCards( new ArrayList<>( player.getBoardCards().getCards() ) ) );
+      clone.setActive( player.isActive() );
       return clone;
    }
 

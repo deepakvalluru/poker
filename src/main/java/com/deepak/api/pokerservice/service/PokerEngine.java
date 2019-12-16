@@ -20,7 +20,8 @@ public class PokerEngine
    public static GameResult getResult( Game game )
    {
       GameResult gameResult = new GameResult();
-      gameResult.setPlayers( game.getPlayers() );
+      List<Player> activePlayers = game.getPlayers().stream().filter( Player::isActive ).collect( Collectors.toList());
+      gameResult.setPlayers( activePlayers );
 
       for( Player player : gameResult.getPlayers() )
       {

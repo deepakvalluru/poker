@@ -39,7 +39,7 @@ public class PercentageCalculator
          SetOfCards boardCards = cloneGame.getBoardCards();
          boardCards.addCards( list );
          logger.trace( " CARDS ON THE BOARD - {}", boardCards );
-         game.getPlayers().forEach( p -> p.setBoardCards( boardCards ) );
+         cloneGame.getPlayers().forEach( p -> p.setBoardCards( boardCards ) );
          CompletableFuture<GameResult> future =
                   CompletableFuture.supplyAsync( () -> PokerEngine.getResult( cloneGame ), executorService );
          futureResults.add( future );
@@ -74,8 +74,12 @@ public class PercentageCalculator
       } );
 
       playerWinMap.keySet().forEach( x -> logger.info( "{} - {}", x.getName(), playerWinMap.get( x ).floatValue() ) );
+
       GameResult gameResult = new GameResult();
-      gameResult.setPlayers( game.getPlayers() );
+      List<Player> activePlayers = game.getPlayers().stream().filter( Player::isActive ).collect( Collectors.toList());
+      gameResult.setPlayers( activePlayers );
+
+      gameResult.setGame( game );
       gameResult.getPlayers().forEach( p -> {
          p.setPercentage( playerWinMap.get( p ) != null ? ( playerWinMap.get( p )
                                                                         .divide( remainingCardCombinations.size() )
@@ -84,10 +88,13 @@ public class PercentageCalculator
          p.setBoardCards( game.getBoardCards() );
       } );
 
+      logger.info( "-------------------------------------Here are the results--------------------------------" );
+      gameResult.getPlayers().forEach( p -> logger.info( "{} -----------> {} %", p.getName(),  String.format( "%.2f", p.getPercentage() ) ) );
+
       return gameResult;
    }
 
-   public static List<List<Card>> getCombinations( Deck deck, int cardsToDeal )
+   private static List<List<Card>> getCombinations( Deck deck, int cardsToDeal )
    {
       List<Card> cards = deck.getCards();
       int cardsLeftInDeck = cards.size();
@@ -101,7 +108,7 @@ public class PercentageCalculator
       return list;
    }
 
-   public static <T> CompletableFuture<List<T>> all( List<CompletableFuture<T>> futures )
+   private static <T> CompletableFuture<List<T>> all( List<CompletableFuture<T>> futures )
    {
       CompletableFuture[] cfs = futures.toArray( new CompletableFuture[ futures.size() ] );
 

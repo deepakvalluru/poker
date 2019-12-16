@@ -1,9 +1,7 @@
 package com.deepak.api.pokerservice.controller;
 
-import com.deepak.api.pokerservice.model.Card;
-import com.deepak.api.pokerservice.model.CardDeal;
-import com.deepak.api.pokerservice.model.Game;
-import com.deepak.api.pokerservice.model.Player;
+import com.deepak.api.pokerservice.model.*;
+import com.deepak.api.pokerservice.service.PercentageCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +30,13 @@ public class GameController
 
    @RequestMapping( method= RequestMethod.POST, path="/deal")
    @ResponseBody
-   public Game dealRandomCard( @RequestBody CardDeal cardDeal )
+   public GameResult dealCard( @RequestBody CardDeal cardDeal )
    {
+      GameResult gameResult = new GameResult();
+      gameResult.setGame( cardDeal.getGame() );
       if( !isValid( cardDeal) )
       {
-         return cardDeal.getGame();
+         return gameResult;
       }
       Game currentGame = cardDeal.getGame();
       Card dealtCard = cardDeal.getDealtCard();
@@ -59,7 +59,12 @@ public class GameController
          currentGame.dealPlayerCard( dealtCard, cardDeal.getPlayer() );
       }
 
-      return currentGame;
+      if( currentGame.getPlayers().stream().filter( Player::isActive ).count() >= 2L )
+      {
+         gameResult = PercentageCalculator.calculatePercentages( currentGame );
+      }
+
+      return gameResult;
    }
 
    private boolean isValid( CardDeal cardDeal )

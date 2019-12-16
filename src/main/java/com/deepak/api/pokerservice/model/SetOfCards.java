@@ -1,7 +1,5 @@
 package com.deepak.api.pokerservice.model;
 
-import com.deepak.api.pokerservice.model.Card;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +41,11 @@ public class SetOfCards
    public void addCards( List<Card> cards )
    {
       this.getCards().addAll( cards );
+   }
+
+   public int size()
+   {
+      return getCards().size();
    }
 
    public String toString()
