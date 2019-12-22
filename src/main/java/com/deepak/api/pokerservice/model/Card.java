@@ -5,6 +5,7 @@ public class Card implements Comparable<Card>
 
    private Number number;
    private Suit   suit;
+   private String imagePath;
 
    public Card()
    {
@@ -35,6 +36,16 @@ public class Card implements Comparable<Card>
    public void setSuit( Suit suit )
    {
       this.suit = suit;
+   }
+
+   public String getImagePath()
+   {
+      return imagePath;
+   }
+
+   public void setImagePath( String imagePath )
+   {
+      this.imagePath = imagePath;
    }
 
    public String toString()

@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api/pokergame")
+@CrossOrigin( origins = "http://localhost:4200" )
 public class GameController
 {
    private static final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
