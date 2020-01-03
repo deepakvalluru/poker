@@ -1,24 +1,17 @@
 package com.deepak.api.pokerservice.combination;
 
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import com.deepak.api.pokerservice.model.Number;
+import com.deepak.api.pokerservice.model.*;
+import com.deepak.api.pokerservice.service.PokerEngine;
+import com.deepak.api.pokerservice.service.PokerHandValidator;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.deepak.api.pokerservice.model.Game;
-import com.deepak.api.pokerservice.service.PokerEngine;
-import com.deepak.api.pokerservice.model.GameResult;
-import com.deepak.api.pokerservice.model.SetOfCards;
-import com.deepak.api.pokerservice.model.BestHand;
-import com.deepak.api.pokerservice.model.Card;
-import com.deepak.api.pokerservice.model.Player;
-import com.deepak.api.pokerservice.model.Number;
-import com.deepak.api.pokerservice.model.Suit;
-import com.deepak.api.pokerservice.service.PokerHandValidator;
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HighCardTest
 {

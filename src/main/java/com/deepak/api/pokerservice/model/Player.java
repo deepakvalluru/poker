@@ -77,6 +77,10 @@ public class Player implements Comparable<Player>
    public void setPlayerCards( SetOfCards playerCards )
    {
       this.playerCards = playerCards;
+      if( this.playerCards.size() == 2 )
+      {
+         this.setActive( true );
+      }
    }
 
    public SetOfCards getBoardCards()

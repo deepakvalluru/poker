@@ -60,6 +60,12 @@ public final class Deck
 
    private String getImageLink( Number number, Suit suit )
    {
+      // TODO - For some reason, AD.png is not rendering in chrome but shows up in safari.
+      // If I change the name and image, it is visible. I have this code as a temporary fix.
+      if( number.equals( Number.ACE ) && suit.equals( Suit.DIAMONDS ) )
+      {
+         return "/images/" + "DA1.png";
+      }
       return "/images/" + numberMap.get( number ) + suitMap.get( suit ) + ".png";
    }
 
