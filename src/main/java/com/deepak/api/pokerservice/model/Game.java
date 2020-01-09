@@ -1,7 +1,5 @@
 package com.deepak.api.pokerservice.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +10,11 @@ public class Game
    private SetOfCards   boardCards;
    private Deck         deck;
 
-   @JsonCreator
+   public Game()
+   {
+
+   }
+
    public Game( List<Player> players )
    {
       setDeck( new Deck() );

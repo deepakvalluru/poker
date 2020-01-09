@@ -1,8 +1,5 @@
 package com.deepak.api.pokerservice.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -22,13 +19,18 @@ public class Player implements Comparable<Player>
 
    private boolean active;
 
+   public Player()
+   {
+
+   }
+
    public Player( String name )
    {
       this.name = name;
    }
 
-   @JsonCreator
-   public Player( @JsonProperty ("name") String name, @JsonProperty("position") Integer position )
+//   @JsonCreator
+   public Player( String name, Integer position )
    {
       this.name = name;
       this.position = position;
