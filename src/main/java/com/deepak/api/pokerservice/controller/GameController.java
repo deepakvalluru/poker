@@ -68,6 +68,38 @@ public class GameController
       return gameResult;
    }
 
+   @RequestMapping( method= RequestMethod.POST, path="/dealBackToDeck")
+   @ResponseBody
+   public GameResult backToDeck( @RequestBody CardDeal cardDeal )
+   {
+      GameResult gameResult = new GameResult();
+      gameResult.setGame( cardDeal.getGame() );
+
+      Game currentGame = cardDeal.getGame();
+      Card dealtCard = cardDeal.getDealtCard();
+      List<Card> deckCards = currentGame.getDeck().getCards();
+      if( dealtCard == null )
+      {
+         return gameResult;
+      }
+
+      if( cardDeal.isBoardCard() )
+      {
+         currentGame.dealBoardCardBacktoDeck( dealtCard );
+      }
+      else if( cardDeal.isPlayerCard() && cardDeal.getPlayer() != null )
+      {
+         currentGame.dealPlayerCard( dealtCard, cardDeal.getPlayer() );
+      }
+
+      if( currentGame.getPlayers().stream().filter( Player::isActive ).count() >= 2L )
+      {
+         gameResult = PercentageCalculator.calculatePercentages( currentGame );
+      }
+
+      return gameResult;
+   }
+
    private boolean isValid( CardDeal cardDeal )
    {
       Game currentGame = cardDeal.getGame();

@@ -38,6 +38,11 @@ public class SetOfCards
       this.getCards().add( card );
    }
 
+   public void removeCard( Card card )
+   {
+      this.getCards().remove( card );
+   }
+
    public void addCards( List<Card> cards )
    {
       this.getCards().addAll( cards );
