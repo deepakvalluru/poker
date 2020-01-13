@@ -24,7 +24,7 @@ public class GameController
    public Game newGame()
    {
       List<Player> players = IntStream.rangeClosed( 1, 10 )
-                                      .mapToObj( pos -> new Player( "Player" + pos, pos ) )
+                                      .mapToObj( pos -> new Player( "player" + pos, pos ) )
                                       .collect( Collectors.toList() );
       return new Game( players );
    }
